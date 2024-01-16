@@ -26,7 +26,8 @@ function App() {
   };
 
   return (
-    <div className="">
+    <div className="flex flex-col gap-4">
+      <h1>Pick Users</h1>
       <InputChipComponent
         list={userList}
         chips={selectedUserList}

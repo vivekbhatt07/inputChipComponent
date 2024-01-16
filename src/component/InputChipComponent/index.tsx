@@ -49,7 +49,7 @@ const InputChipComponent: FC<InputChipComponent> = ({
         isReadyToDelete: false,
         data: null,
       });
-    }, 400);
+    }, 300);
   };
   const [searchText, setSearchText] = useState<string>("");
 
@@ -107,7 +107,11 @@ const InputChipComponent: FC<InputChipComponent> = ({
 
   return (
     <div className="relative">
-      <div className="border-2 border-[#ddd] min-w-[400px] max-w-[400px]">
+      <div
+        className={`border-2 min-w-[400px] max-w-[400px] transition-all rounded-md ${
+          isFocused ? "border-[#3b82f6]" : "border-[#ddd]"
+        }`}
+      >
         <div className="flex gap-2 p-1 items-center flex-wrap">
           {chips.map((item) => {
             return (
