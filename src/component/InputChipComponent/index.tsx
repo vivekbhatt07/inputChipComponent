@@ -44,10 +44,10 @@ const Chip: FC<Chip> = ({
 }) => {
   return (
     <div
-      className={`flex gap-1 rounded-full bg-[#ddd] items-center ${
+      className={`flex gap-1 rounded-full bg-[#ddd] items-center transition-all ${
         isHighlight.data?.id === selectedId &&
         isHighlight.isReadyToDelete &&
-        "bg-[#aaa]"
+        "bg-[#a8a29e]"
       }`}
     >
       {image && (
@@ -150,7 +150,6 @@ const InputChipComponent: FC<InputChipComponent> = ({
     handleList((prevList) => {
       return updatedList.filter((item: User) => {
         // @ts-ignore
-        // return item[labelKey].includes(searchText);
         return item[labelKey].toLowerCase().includes(searchText.toLowerCase());
       });
     });
