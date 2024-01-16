@@ -37,6 +37,7 @@ function App() {
         handleList={setUserList}
         // @ts-ignore
         handleChip={setSelectedUserList}
+        placeholder="Add new user..."
       >
         <Menu>
           {userList.map((user) => {
@@ -56,6 +57,9 @@ function App() {
               </MenuItem>
             );
           })}
+          {userList.length === 0 && (
+            <div className="p-4">No User Available</div>
+          )}
         </Menu>
       </InputChipComponent>
     </div>

@@ -7,9 +7,7 @@ import {
   SetStateAction,
 } from "react";
 import { User } from "../../types";
-import { RoundedImageWrap } from "..";
-
-import CloseIcon from "../../assets/closeIcon.svg";
+import { Chip } from "..";
 
 interface InputChipComponent {
   list: User[];
@@ -21,61 +19,8 @@ interface InputChipComponent {
   children: ReactNode;
   handleList: Dispatch<SetStateAction<User[]>>;
   handleChip: Dispatch<SetStateAction<User[]>>;
+  placeholder: string;
 }
-
-interface Chip {
-  image?: string;
-  label: string;
-  handleChip: () => void;
-  handleList: () => void;
-  selectedId: string;
-  item: User;
-}
-
-const Chip: FC<Chip> = ({
-  image,
-  label,
-  handleChip,
-  handleList,
-  selectedId,
-  item,
-  // @ts-ignore
-  isHighlight,
-}) => {
-  return (
-    <div
-      className={`flex gap-1 rounded-full bg-[#ddd] items-center transition-all ${
-        isHighlight.data?.id === selectedId &&
-        isHighlight.isReadyToDelete &&
-        "bg-[#a8a29e]"
-      }`}
-    >
-      {image && (
-        <RoundedImageWrap source={image} alternative={label} dimension={30} />
-      )}
-
-      <span className="text-xs">{label}</span>
-      <button
-        className="w-4 h-4 rounded-full hover:bg-[#aaa] mr-2 flex justify-center items-center transition-all"
-        title="Remove"
-        onClick={() => {
-          // @ts-ignore
-          handleList((prev) => {
-            return [...prev, item];
-          });
-          // @ts-ignore
-          handleChip((prev) => {
-            return prev.filter((item: User) => {
-              return item.id !== selectedId;
-            });
-          });
-        }}
-      >
-        <img src={CloseIcon} alt="close" className="w-[10px] h-[10px]" />
-      </button>
-    </div>
-  );
-};
 
 const InputChipComponent: FC<InputChipComponent> = ({
   chips,
@@ -86,6 +31,7 @@ const InputChipComponent: FC<InputChipComponent> = ({
   handleList,
   handleChip,
   originalList,
+  placeholder,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isToBeDeleted, setIsToBeDeleted] = useState({
@@ -99,6 +45,10 @@ const InputChipComponent: FC<InputChipComponent> = ({
   const handleBlur = () => {
     setTimeout(() => {
       setIsFocused(false);
+      setIsToBeDeleted({
+        isReadyToDelete: false,
+        data: null,
+      });
     }, 400);
   };
   const [searchText, setSearchText] = useState<string>("");
@@ -157,7 +107,7 @@ const InputChipComponent: FC<InputChipComponent> = ({
 
   return (
     <div className="relative">
-      <div className="border-2 border-[#ddd] w-full">
+      <div className="border-2 border-[#ddd] min-w-[400px] max-w-[400px]">
         <div className="flex gap-2 p-1 items-center flex-wrap">
           {chips.map((item) => {
             return (
@@ -180,14 +130,15 @@ const InputChipComponent: FC<InputChipComponent> = ({
           <input
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            className="text-xl p-2 outline-none"
+            className="text-base p-2 outline-none flex-1"
             onFocus={handleFocus}
             onBlur={handleBlur}
             onKeyUp={(e) => handleBackDelete(e)}
+            placeholder={placeholder}
           />
         </div>
       </div>
-      {isFocused && <div className="absolute">{children}</div>}
+      {isFocused && <div className="absolute w-full">{children}</div>}
     </div>
   );
 };
