@@ -105,6 +105,10 @@ const InputChipComponent: FC<InputChipComponent> = ({
     });
   }, [searchText]);
 
+  useEffect(() => {
+    setSearchText("");
+  }, [chips.length]);
+
   return (
     <div className="relative">
       <div
